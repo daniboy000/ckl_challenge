@@ -18,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ArticleListActivity"
+            android:label="@string/title_activity_article_list"
+            android:parentActivityName=".SingleFragmentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="SingleFragmentActivity" />
+        </activity>
     </application>
 
 </manifest>

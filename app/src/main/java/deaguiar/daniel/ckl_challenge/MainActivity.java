@@ -1,35 +1,48 @@
 package deaguiar.daniel.ckl_challenge;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.io.IOException;
 
 public class MainActivity extends Activity {
 
     public static final String TAG = "MainActivity";
+    private Button articleListButton;
+    private Button fetchArticleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new FetchArticlesClass().execute();
+        articleListButton = (Button) findViewById(R.id.main_article_list);
+        articleListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ArticleListActivity.class);
+                startActivity(i);
+            }
+        });
+
+        fetchArticleButton = (Button) findViewById(R.id.main_fetch_articles);
+        fetchArticleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new FetchArticlesClass().execute();
+            }
+        });
     }
 
     private class FetchArticlesClass extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
-//            try {
-//                String result = new ArticleFetcher().getUrl("http://www.google.com");
-//                Log.i(TAG, "Fetched contents of URL: " + result);
-//            } catch (IOException ioe) {
-//                Log.e(TAG, "Failed to fethc URL: ", ioe);
-//            }
-
             new ArticleFetcher().fetchItems();
             return null;
         }
