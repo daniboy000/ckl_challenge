@@ -2,6 +2,8 @@ package deaguiar.daniel.ckl_challenge;
 
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
 public class Article {
 
     private String mTitle;
-    private String mDate;
+    private Date mDate;
     private String website;
     private String mImage;
     private String mContent;
@@ -24,12 +26,21 @@ public class Article {
         mTitle = title;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return mDate;
     }
 
+    public String getDateAsString() {
+        return mDate.toString();
+    }
+
     public void setDate(String date) {
-        mDate = date;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+            mDate = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getWebsite() {

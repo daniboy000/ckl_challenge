@@ -7,9 +7,9 @@
     <string name="main_fetch_articles_label">Fetch Articles</string>
     <string name="title_activity_article_list">ArticleListActivity</string>
 
-    <string name="hello_world">Hello world!</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sort_article_by_title">Sort by Title</string>
+    <string name="sort_article_by_authors">Sort by Authors</string>
+    <string name="sort_article_by_website">Sort by Website</string>
+    <string name="sort_article_by_date">Sort by Date</string>
 
 </resources>
