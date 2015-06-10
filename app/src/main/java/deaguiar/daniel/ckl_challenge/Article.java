@@ -63,4 +63,8 @@ public class Article {
     public void setAuthors(String authors) {
         mAuthors = authors;
     }
+
+    public String toString() {
+        return mTitle;
+    }
 }

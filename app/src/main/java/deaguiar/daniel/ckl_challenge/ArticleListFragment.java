@@ -1,29 +1,46 @@
 package deaguiar.daniel.ckl_challenge;
 
-import android.app.Activity;
-import android.net.Uri;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
-public class ArticleListFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.Comparator;
 
-    public ArticleListFragment() {
-        // Required empty public constructor
-    }
+public class ArticleListFragment extends ListFragment {
+
+    private ArrayList<Article> mArticleList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
+
+        ArrayAdapter<Article> adapter = new ArrayAdapter<Article>(getActivity(),
+                                                          android.R.layout.simple_list_item_1,
+                                                          mArticleList);
+
+        adapter.sort(new CompareTitle());
+
+        setListAdapter(adapter);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_article_list, container, false);
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_article_list, container, false);
+//    }
+
+    private class CompareTitle implements Comparator<Article> {
+
+        @Override
+        public int compare(Article article1, Article article2) {
+            return article1.getTitle().compareTo(article2.getTitle());
+        }
+
     }
+
+
 
 }
