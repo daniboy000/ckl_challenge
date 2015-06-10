@@ -1,5 +1,6 @@
 package deaguiar.daniel.ckl_challenge;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.JsonReader;
 import android.util.Log;
@@ -24,6 +25,8 @@ import java.util.Date;
  */
 public class ArticleFetcher {
 
+    private Context mAppContext;
+
     public static final String TAG = "ArticleFetcher";
 
     private static final String ENDPOINT = "http://www.ckl.io/challenge/";
@@ -33,6 +36,10 @@ public class ArticleFetcher {
     private static final String JSON_IMAGE = "image";
     private static final String JSON_CONTENT = "content";
     private static final String JSON_AUTHORS = "authors";
+
+    public ArticleFetcher(Context context) {
+        mAppContext = context;
+    }
 
     byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
@@ -62,8 +69,8 @@ public class ArticleFetcher {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public ArrayList<Article> fetchItems() {
-        ArrayList<Article> articlesList = new ArrayList<Article>();
+    public void fetchItems() {
+        ArticleList articleList = ArticleList.getInstance(mAppContext);
 
         try {
             String url = Uri.parse(ENDPOINT).buildUpon().build().toString();
@@ -113,7 +120,7 @@ public class ArticleFetcher {
                 article.setContent(content);
                 article.setAuthors(authors);
 
-                articlesList.add(article);
+                articleList.addArticle(article);
             }
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
@@ -121,7 +128,6 @@ public class ArticleFetcher {
             Log.e(TAG, "Failed to parse JSON", jse);
         }
 
-        return articlesList;
     }
 
 }
