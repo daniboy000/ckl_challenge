@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,10 +26,9 @@ public class ArticleListFragment extends ListFragment {
 
         mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
 
-        ArrayAdapter<Article> adapter = new ArrayAdapter<Article>(getActivity(),
-                                                          android.R.layout.simple_list_item_1,
-                                                          mArticleList);
 
+
+        ArticleAdapter adapter = new ArticleAdapter(mArticleList);
         adapter.sort(new CompareTitle());
 
         setListAdapter(adapter);
@@ -65,6 +67,32 @@ public class ArticleListFragment extends ListFragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class ArticleAdapter extends ArrayAdapter<Article> {
+
+        public ArticleAdapter(ArrayList<Article> articles) {
+            super(getActivity(), 0, articles);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // If we weren't given a view, inflate one
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater()
+                        .inflate(R.layout.list_item_article, null);
+            }
+
+            Article article = getItem(position);
+
+            TextView titleTextView = (TextView)convertView.findViewById(R.id.article_list_item_title);
+            titleTextView.setText(article.getTitle());
+
+            TextView authorTextView = (TextView)convertView.findViewById(R.id.article_list_item_author);
+            authorTextView.setText(article.getAuthors());
+
+            return convertView;
         }
     }
 
