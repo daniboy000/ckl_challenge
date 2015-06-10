@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ckl_challenge</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="main_article_list_label">Articles List</string>
+    <string name="main_fetch_articles_label">Fetch Articles</string>
+
 </resources>
