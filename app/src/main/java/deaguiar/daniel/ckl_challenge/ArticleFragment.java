@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class ArticleFragment extends Fragment {
 
-    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_ID = "_id";
 
     private Article mArticle;
     private TextView mTitleTextView;
@@ -20,13 +20,13 @@ public class ArticleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String title = getActivity().getIntent().getStringExtra(EXTRA_TITLE);
-        mArticle = ArticleList.getInstance(getActivity()).getArticle(title);
+        int id = getArguments().getInt(EXTRA_ID);
+        mArticle = ArticleList.getInstance(getActivity()).getArticle(id);
     }
 
-    public static ArticleFragment newInstance(String title) {
+    public static ArticleFragment newInstance(int id) {
         Bundle args = new Bundle();
-        args.putString(EXTRA_TITLE, title);
+        args.putInt(EXTRA_ID, id);
 
         ArticleFragment fragment = new ArticleFragment();
         fragment.setArguments(args);

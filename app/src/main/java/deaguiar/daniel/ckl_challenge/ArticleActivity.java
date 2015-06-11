@@ -10,8 +10,8 @@ import android.view.MenuItem;
 public class ArticleActivity extends SingleFragmentActivity {
 
     public Fragment createFragment() {
-        String title = getIntent().getStringExtra(ArticleFragment.EXTRA_TITLE);
+        int id = getIntent().getIntExtra(ArticleFragment.EXTRA_ID, -1);
 
-        return ArticleFragment.newInstance(title);
+        return ArticleFragment.newInstance(id);
     }
 }

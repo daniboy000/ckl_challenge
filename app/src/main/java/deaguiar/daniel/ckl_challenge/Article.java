@@ -11,6 +11,16 @@ import java.util.Date;
  */
 public class Article {
 
+    private int mId;
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
     private String mTitle;
     private Date mDate;
     private String website;

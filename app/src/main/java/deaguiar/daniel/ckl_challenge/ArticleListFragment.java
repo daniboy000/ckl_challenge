@@ -28,16 +28,20 @@ public class ArticleListFragment extends ListFragment {
 
         mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
 
-        ArticleAdapter adapter = new ArticleAdapter(mArticleList);
-        adapter.sort(new CompareTitle());
+        if (mArticleList.size() > 0) {
+            ArticleAdapter adapter = new ArticleAdapter(mArticleList);
+            adapter.sort(new CompareTitle());
 
-        setListAdapter(adapter);
+            setListAdapter(adapter);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((ArticleAdapter)getListAdapter()).notifyDataSetChanged();
+        if (mArticleList.size() > 0) {
+            ((ArticleAdapter) getListAdapter()).notifyDataSetChanged();
+        }
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -46,7 +50,7 @@ public class ArticleListFragment extends ListFragment {
 
         // Start ArticleActivity
         Intent i = new Intent(getActivity(), ArticleActivity.class);
-        i.putExtra(ArticleFragment.EXTRA_TITLE, article.getTitle());
+        i.putExtra(ArticleFragment.EXTRA_ID, article.getId());
         startActivity(i);
     }
 
