@@ -1,6 +1,7 @@
 package deaguiar.daniel.ckl_challenge;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,19 +28,27 @@ public class ArticleListFragment extends ListFragment {
 
         mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
 
-
-
         ArticleAdapter adapter = new ArticleAdapter(mArticleList);
         adapter.sort(new CompareTitle());
 
         setListAdapter(adapter);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_article_list, container, false);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ArticleAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+    public void onListItemClick(ListView l, View v, int position, long id) {
+
+        Article article = ((ArticleAdapter)getListAdapter()).getItem(position);
+
+        // Start ArticleActivity
+        Intent i = new Intent(getActivity(), ArticleActivity.class);
+        i.putExtra(ArticleFragment.EXTRA_TITLE, article.getTitle());
+        startActivity(i);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

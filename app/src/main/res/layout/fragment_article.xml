@@ -1,0 +1,35 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="deaguiar.daniel.ckl_challenge.ArticleFragment">
+
+    <TableRow>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/fragment_title"/>
+
+        <TextView
+            android:id="@+id/fragment_article_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"/>S
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="@string/fragment_author"/>
+
+        <TextView
+            android:id="@+id/fragment_article_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"/>S
+    </TableRow>
+
+</TableLayout>

@@ -11,5 +11,12 @@
     <string name="sort_article_by_authors">Sort by Authors</string>
     <string name="sort_article_by_website">Sort by Website</string>
     <string name="sort_article_by_date">Sort by Date</string>
+    <string name="title_activity_article">ArticleActivity</string>
+
+    <string name="fragment_title">Title</string>
+    <string name="fragment_author">Author</string>
+    <string name="fragment_website">Website</string>
+    <string name="fragment_date">Date</string>
+    <string name="fragment_content">Content</string>
 
 </resources>

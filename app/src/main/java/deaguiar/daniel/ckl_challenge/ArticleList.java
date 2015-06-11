@@ -32,4 +32,13 @@ public class ArticleList {
     public void addArticle(Article article) {
         mArticleList.add(article);
     }
+
+    public Article getArticle(String title) {
+        for (Article article : mArticleList) {
+            if (article.getTitle().equals(title)) {
+                return article;
+            }
+        }
+        return null;
+    }
 }
