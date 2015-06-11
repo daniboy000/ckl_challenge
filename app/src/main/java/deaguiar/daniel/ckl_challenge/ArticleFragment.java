@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ArticleFragment extends Fragment {
@@ -15,6 +16,7 @@ public class ArticleFragment extends Fragment {
     private Article mArticle;
     private TextView mTitleTextView;
     private TextView mAuthorTextView;
+    private ImageView mImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,11 +40,16 @@ public class ArticleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_article, parent, false);
 
-        mTitleTextView = (TextView)v.findViewById(R.id.fragment_article_title);
+        mTitleTextView = (TextView) v.findViewById(R.id.fragment_article_title);
         mTitleTextView.setText(mArticle.getTitle());
 
-        mAuthorTextView = (TextView)v.findViewById(R.id.fragment_article_author);
+        mAuthorTextView = (TextView) v.findViewById(R.id.fragment_article_author);
         mAuthorTextView.setText(mArticle.getAuthors());
+
+        if (mArticle.getImageAsBitmap() != null) {
+            mImageView = (ImageView) v.findViewById(R.id.fragment_article_image);
+            mImageView.setImageBitmap(mArticle.getImageAsBitmap());
+        }
 
         return v;
     }

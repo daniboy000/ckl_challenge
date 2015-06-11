@@ -18,6 +18,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_IMAGE   = "image";
     public static final String COLUMN_CONTENT = "content";
     public static final String COLUMN_AUTHORS = "authors";
+    public static final String COLUMN_IMAGE_DATA = "image_data";
 
     private static final String CREATE_TABLE_ARTICLE = "create table " +
             TABLE_ARTICLE + "(" +
@@ -27,7 +28,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             COLUMN_WEBSITE + " TEXT, " +
             COLUMN_IMAGE + " TEXT, " +
             COLUMN_CONTENT + " TEXT, " +
-            COLUMN_AUTHORS + " TEXT);";
+            COLUMN_AUTHORS + " TEXT, " +
+            COLUMN_IMAGE_DATA + " BLOB);";
 
     private static final String DATABASE_NAME = "cheesecake.db";
     private static final int DATABASE_VERSION = 1;

@@ -20,7 +20,7 @@ public class ArticleList {
 
     private String[] mAllCollumns = { SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE,
             SQLiteHelper.COLUMN_DATE, SQLiteHelper.COLUMN_WEBSITE, SQLiteHelper.COLUMN_IMAGE,
-            SQLiteHelper.COLUMN_CONTENT, SQLiteHelper.COLUMN_AUTHORS };
+            SQLiteHelper.COLUMN_CONTENT, SQLiteHelper.COLUMN_AUTHORS, SQLiteHelper.COLUMN_IMAGE_DATA };
 
     private ArticleList(Context appContext) {
         mAppContext = appContext;
@@ -70,7 +70,7 @@ public class ArticleList {
     }
 
     public void insertArticle(String title, String date, String website,
-                              String image, String content, String authors) {
+                              String image, String content, String authors, byte[] imageData) {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.COLUMN_TITLE, title);
         values.put(SQLiteHelper.COLUMN_DATE, date);
@@ -78,6 +78,7 @@ public class ArticleList {
         values.put(SQLiteHelper.COLUMN_IMAGE, image);
         values.put(SQLiteHelper.COLUMN_CONTENT, content);
         values.put(SQLiteHelper.COLUMN_AUTHORS, authors);
+        values.put(SQLiteHelper.COLUMN_IMAGE_DATA, imageData);
 
         String whereClause = SQLiteHelper.COLUMN_TITLE + " = ? AND " +
                 SQLiteHelper.COLUMN_DATE + " = ? AND " + SQLiteHelper.COLUMN_WEBSITE + " = ? AND " +
@@ -112,6 +113,7 @@ public class ArticleList {
         article.setImage(cursor.getString(4));
         article.setContent(cursor.getBlob(5).toString());
         article.setAuthors(cursor.getString(6));
+        article.setImageData(cursor.getBlob(7));
 
         return article;
     }

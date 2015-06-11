@@ -1,5 +1,8 @@
 package deaguiar.daniel.ckl_challenge;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,6 +30,7 @@ public class Article {
     private String mImage;
     private String mContent;
     private String mAuthors;
+    private byte[] mImageData;
 
     public String getTitle() {
         return mTitle;
@@ -87,5 +91,17 @@ public class Article {
 
     public String toString() {
         return mTitle;
+    }
+
+    public void setImageData(byte[] imageData) {
+        mImageData = imageData;
+    }
+
+    public Bitmap getImageAsBitmap() {
+        if (mImageData != null) {
+            final Bitmap bitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.length);
+            return bitmap;
+        }
+        return null;
     }
 }

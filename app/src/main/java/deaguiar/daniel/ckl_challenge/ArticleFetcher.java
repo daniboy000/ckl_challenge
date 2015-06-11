@@ -98,8 +98,14 @@ public class ArticleFetcher {
                 if (!jsonObject.isNull(JSON_WEBSITE))
                     website = jsonObject.getString(JSON_WEBSITE);
 
-                if (!jsonObject.isNull(JSON_IMAGE))
+                byte[] imageData = null;
+                if (!jsonObject.isNull(JSON_IMAGE)) {
                     image = jsonObject.getString(JSON_IMAGE);
+
+                    // Get image from url
+                    imageData = getUrlBytes(image);
+                    Log.i(TAG, "IMAGE SIZE: " + imageData.length);
+                }
 
                 if (!jsonObject.isNull(JSON_CONTENT))
                     content = jsonObject.getString(JSON_CONTENT);
@@ -107,7 +113,7 @@ public class ArticleFetcher {
                 if (!jsonObject.isNull(JSON_AUTHORS))
                     authors = jsonObject.getString(JSON_AUTHORS);
 
-                articleList.insertArticle(title, date, website, image, content, authors);
+                articleList.insertArticle(title, date, website, image, content, authors, imageData);
             }
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);

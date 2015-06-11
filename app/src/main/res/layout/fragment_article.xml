@@ -29,7 +29,16 @@
             android:id="@+id/fragment_article_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"/>S
+            android:padding="4dp"/>
+    </TableRow>
+
+    <TableRow>
+        <ImageView
+            android:id="@+id/fragment_article_image"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:padding="4dp" />
+
     </TableRow>
 
 </TableLayout>
