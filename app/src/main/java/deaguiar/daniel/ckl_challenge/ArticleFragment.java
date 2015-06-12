@@ -1,7 +1,13 @@
 package deaguiar.daniel.ckl_challenge;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +22,15 @@ public class ArticleFragment extends Fragment {
     public static final String EXTRA_ID = "_id";
 
     private Article mArticle;
-    private TextView mTitleTextView;
-    private TextView mAuthorTextView;
     private ImageView mImageView;
+    private TextView mTitleTextView;
+
+    private TextView mDateTextView;
+    private TextView mAuthorTextView;
+    private TextView mWebsiteTextView;
+
+    private TextView mContentTextView;
+
     private CheckBox mReadedCheckBox;
 
     @Override
@@ -46,16 +58,30 @@ public class ArticleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_article, parent, false);
 
+        if (mArticle.getImageAsBitmap() != null) {
+            mImageView = (ImageView) v.findViewById(R.id.fragment_article_image);
+            Bitmap bitmap = mArticle.getImageAsBitmap();
+
+            int dim = getImageDimension(getActivity());
+            Log.i("Article", "DIMENSION: " + dim);
+
+            mImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, dim, dim, false));
+        }
+
         mTitleTextView = (TextView) v.findViewById(R.id.fragment_article_title);
         mTitleTextView.setText(mArticle.getTitle());
 
         mAuthorTextView = (TextView) v.findViewById(R.id.fragment_article_author);
-        mAuthorTextView.setText(mArticle.getAuthors());
+        mAuthorTextView.setText("author: " + mArticle.getAuthors());
 
-        if (mArticle.getImageAsBitmap() != null) {
-            mImageView = (ImageView) v.findViewById(R.id.fragment_article_image);
-            mImageView.setImageBitmap(mArticle.getImageAsBitmap());
-        }
+        mWebsiteTextView = (TextView) v.findViewById(R.id.fragment_article_website);
+        mWebsiteTextView.setText("site: " + mArticle.getWebsite());
+
+        mDateTextView = (TextView) v.findViewById(R.id.fragment_article_date);
+        mDateTextView.setText(mArticle.getDateAsString());
+
+        mContentTextView = (TextView) v.findViewById(R.id.fragment_article_content);
+        mContentTextView.setText(mArticle.getContent().toString());
 
         mReadedCheckBox = (CheckBox) v.findViewById(R.id.fragment_article_readed);
         mReadedCheckBox.setChecked(mArticle.isReaded());
@@ -70,4 +96,19 @@ public class ArticleFragment extends Fragment {
         return v;
     }
 
+    private int getImageDimension(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        int destWidth = display.getWidth();
+        int destHeight = display.getHeight();
+
+        int newSize = 1;
+        if (destWidth < destHeight) {
+            newSize = Math.round(destWidth / 3);
+        }
+        else {
+            newSize = Math.round(destHeight / 3);
+        }
+
+        return newSize;
+    }
 }

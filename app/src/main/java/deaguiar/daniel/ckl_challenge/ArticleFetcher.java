@@ -103,7 +103,6 @@ public class ArticleFetcher {
 
                     // Get image from url
                     imageData = getUrlBytes(image);
-                    Log.i(TAG, "IMAGE SIZE: " + imageData.length);
                 }
 
                 if (!jsonObject.isNull(JSON_CONTENT))

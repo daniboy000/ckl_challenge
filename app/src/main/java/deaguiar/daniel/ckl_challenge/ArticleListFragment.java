@@ -35,13 +35,13 @@ public class ArticleListFragment extends ListFragment {
         Log.i(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//        getActivity().setTitle(R.string.main_article_list_label);
-//
-//        mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
-//        mAdapter = new ArticleAdapter(mArticleList);
-//
-//        setListAdapter(mAdapter);
+        setHasOptionsMenu(true);
+        getActivity().setTitle(R.string.main_article_list_label);
+
+        mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
+        mAdapter = new ArticleAdapter(mArticleList);
+
+        setListAdapter(mAdapter);
     }
 
     @Override
@@ -61,13 +61,10 @@ public class ArticleListFragment extends ListFragment {
         Log.i(TAG, "onResume ArticleListFragment");
         super.onResume();
 
-        setHasOptionsMenu(true);
-        getActivity().setTitle(R.string.main_article_list_label);
-
         mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
-        mAdapter = new ArticleAdapter(mArticleList);
 
-        setListAdapter(mAdapter);
+        mAdapter.clear();
+        mAdapter.changeData(mArticleList);
 
         mAdapter.notifyDataSetChanged();
     }
@@ -85,6 +82,7 @@ public class ArticleListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_list_article, menu);
+
     }
 
     @Override
@@ -132,7 +130,7 @@ public class ArticleListFragment extends ListFragment {
 
             Article article = getItem(position);
 
-            ImageView imageView = (ImageView)convertView.findViewById(R.id.thumbnail);
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.thumbnail);
             imageView.setImageBitmap(article.getImageAsBitmap());
 
             TextView titleTextView = (TextView)convertView.findViewById(R.id.article_list_item_title);
@@ -181,6 +179,7 @@ public class ArticleListFragment extends ListFragment {
             }
 
             ArrayList<Article> articles = ArticleList.getInstance(getActivity()).getArticleList();
+            ArticleListFragment.this.mAdapter.clear();
             ArticleListFragment.this.mAdapter.changeData(articles);
         }
 

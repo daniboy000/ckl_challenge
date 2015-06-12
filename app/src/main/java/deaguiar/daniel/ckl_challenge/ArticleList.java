@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -121,7 +122,7 @@ public class ArticleList {
         article.setDate(cursor.getString(2));
         article.setWebsite(cursor.getString(3));
         article.setImage(cursor.getString(4));
-        article.setContent(cursor.getBlob(5).toString());
+        article.setContent(cursor.getString(5));
         article.setAuthors(cursor.getString(6));
         article.setImageData(cursor.getBlob(7));
         article.setReaded(cursor.getInt(8) == 1);

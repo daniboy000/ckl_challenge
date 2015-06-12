@@ -4,12 +4,10 @@
 
     <item android:id="@+id/fetch_articles"
           android:title="@string/fetch_articles_label"
-          android:orderInCategory="100"
-          app:showAsAction="ifRoom|withText"/>
+          app:showAsAction="always"/>
 
     <item android:id="@+id/sort_title"
           android:title="@string/sort_article_by_title"
-          android:orderInCategory="100"
           app:showAsAction="never"/>
 
     <item android:id="@+id/sort_authors"
@@ -19,11 +17,9 @@
 
     <item android:id="@+id/sort_websites"
           android:title="@string/sort_article_by_website"
-          android:orderInCategory="100"
           app:showAsAction="never"/>
 
     <item android:id="@+id/sort_dates"
           android:title="@string/sort_article_by_date"
-          android:orderInCategory="100"
           app:showAsAction="never"/>
 </menu>
