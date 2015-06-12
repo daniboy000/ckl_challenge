@@ -39,6 +39,12 @@
             android:layout_height="240dp"
             android:padding="4dp" />
 
+        <CheckBox
+            android:id="@+id/fragment_article_readed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp" />
+
     </TableRow>
 
 </TableLayout>

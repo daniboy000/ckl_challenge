@@ -20,7 +20,8 @@ public class ArticleList {
 
     private String[] mAllCollumns = { SQLiteHelper.COLUMN_ID, SQLiteHelper.COLUMN_TITLE,
             SQLiteHelper.COLUMN_DATE, SQLiteHelper.COLUMN_WEBSITE, SQLiteHelper.COLUMN_IMAGE,
-            SQLiteHelper.COLUMN_CONTENT, SQLiteHelper.COLUMN_AUTHORS, SQLiteHelper.COLUMN_IMAGE_DATA };
+            SQLiteHelper.COLUMN_CONTENT, SQLiteHelper.COLUMN_AUTHORS, SQLiteHelper.COLUMN_IMAGE_DATA,
+            SQLiteHelper.COLUMN_READED };
 
     private ArticleList(Context appContext) {
         mAppContext = appContext;
@@ -70,7 +71,8 @@ public class ArticleList {
     }
 
     public void insertArticle(String title, String date, String website,
-                              String image, String content, String authors, byte[] imageData) {
+                              String image, String content, String authors,
+                              byte[] imageData, boolean readed) {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.COLUMN_TITLE, title);
         values.put(SQLiteHelper.COLUMN_DATE, date);
@@ -79,6 +81,7 @@ public class ArticleList {
         values.put(SQLiteHelper.COLUMN_CONTENT, content);
         values.put(SQLiteHelper.COLUMN_AUTHORS, authors);
         values.put(SQLiteHelper.COLUMN_IMAGE_DATA, imageData);
+        values.put(SQLiteHelper.COLUMN_READED, readed ? 1 : 0);
 
         String whereClause = SQLiteHelper.COLUMN_TITLE + " = ? AND " +
                 SQLiteHelper.COLUMN_DATE + " = ? AND " + SQLiteHelper.COLUMN_WEBSITE + " = ? AND " +
@@ -88,11 +91,18 @@ public class ArticleList {
         String[] args = { title, date, website, image, content, authors };
 
         if (mDataBase.update(SQLiteHelper.TABLE_ARTICLE, values, whereClause, args) == 0) {
-            mDataBase.insert(SQLiteHelper.TABLE_ARTICLE, null, values);
+            long id = mDataBase.insert(SQLiteHelper.TABLE_ARTICLE, null, values);
         }
     }
 
-    public Article getArticle(int id) {
+    public void update(Article article) {
+        ContentValues values = new ContentValues();
+        values.put(SQLiteHelper.COLUMN_READED, article.isReaded() ? 1 : 0);
+
+        mDataBase.update(SQLiteHelper.TABLE_ARTICLE, values, SQLiteHelper.COLUMN_ID + " = " + article.getId(), null);
+    }
+
+    public Article getArticle(long id) {
         Cursor cursor = mDataBase.query(SQLiteHelper.TABLE_ARTICLE, mAllCollumns,
                             SQLiteHelper.COLUMN_ID + " = " + id, null, null, null, null);
 
@@ -106,7 +116,7 @@ public class ArticleList {
 
     private Article cursorToArticle(Cursor cursor) {
         Article article = new Article();
-        article.setId(cursor.getInt(0));
+        article.setId(cursor.getLong(0));
         article.setTitle(cursor.getString(1));
         article.setDate(cursor.getString(2));
         article.setWebsite(cursor.getString(3));
@@ -114,6 +124,7 @@ public class ArticleList {
         article.setContent(cursor.getBlob(5).toString());
         article.setAuthors(cursor.getString(6));
         article.setImageData(cursor.getBlob(7));
+        article.setReaded(cursor.getInt(8) == 1);
 
         return article;
     }

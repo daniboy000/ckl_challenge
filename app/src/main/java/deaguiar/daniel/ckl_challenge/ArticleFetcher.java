@@ -112,7 +112,7 @@ public class ArticleFetcher {
                 if (!jsonObject.isNull(JSON_AUTHORS))
                     authors = jsonObject.getString(JSON_AUTHORS);
 
-                articleList.insertArticle(title, date, website, image, content, authors, imageData);
+                articleList.insertArticle(title, date, website, image, content, authors, imageData, false);
             }
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);

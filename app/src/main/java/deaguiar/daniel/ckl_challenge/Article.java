@@ -14,16 +14,7 @@ import java.util.Date;
  */
 public class Article {
 
-    private int mId;
-
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
-        mId = id;
-    }
-
+    private long mId;
     private String mTitle;
     private Date mDate;
     private String website;
@@ -31,6 +22,23 @@ public class Article {
     private String mContent;
     private String mAuthors;
     private byte[] mImageData;
+    private boolean mReaded;
+
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
+    }
+
+    public boolean isReaded() {
+        return mReaded;
+    }
+
+    public void setReaded(boolean readed) {
+        mReaded = readed;
+    }
 
     public String getTitle() {
         return mTitle;

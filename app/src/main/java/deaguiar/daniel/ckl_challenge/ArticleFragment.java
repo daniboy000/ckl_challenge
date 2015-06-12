@@ -2,12 +2,12 @@ package deaguiar.daniel.ckl_challenge;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +19,7 @@ public class ArticleFragment extends Fragment {
     private TextView mTitleTextView;
     private TextView mAuthorTextView;
     private ImageView mImageView;
+    private CheckBox mReadedCheckBox;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,13 +28,13 @@ public class ArticleFragment extends Fragment {
         setHasOptionsMenu(true);
         getActivity().setTitle(R.string.main_article_list_label);
 
-        int id = getArguments().getInt(EXTRA_ID);
+        long id = getArguments().getLong(EXTRA_ID);
         mArticle = ArticleList.getInstance(getActivity()).getArticle(id);
     }
 
-    public static ArticleFragment newInstance(int id) {
+    public static ArticleFragment newInstance(long id) {
         Bundle args = new Bundle();
-        args.putInt(EXTRA_ID, id);
+        args.putLong(EXTRA_ID, id);
 
         ArticleFragment fragment = new ArticleFragment();
         fragment.setArguments(args);
@@ -55,6 +56,16 @@ public class ArticleFragment extends Fragment {
             mImageView = (ImageView) v.findViewById(R.id.fragment_article_image);
             mImageView.setImageBitmap(mArticle.getImageAsBitmap());
         }
+
+        mReadedCheckBox = (CheckBox) v.findViewById(R.id.fragment_article_readed);
+        mReadedCheckBox.setChecked(mArticle.isReaded());
+        mReadedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // set the crime's solved property
+                mArticle.setReaded(isChecked);
+                ArticleList.getInstance(getActivity()).update(mArticle);
+            }
+        });
 
         return v;
     }

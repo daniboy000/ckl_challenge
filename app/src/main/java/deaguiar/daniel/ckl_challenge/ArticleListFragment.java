@@ -25,6 +25,7 @@ import java.util.Comparator;
 public class ArticleListFragment extends ListFragment {
 
     private ListView mListView;
+    ArrayList<Article> mArticleList;
     private ArticleAdapter mAdapter;
 
     public static final String TAG = "ArticleListActivity";
@@ -34,13 +35,13 @@ public class ArticleListFragment extends ListFragment {
         Log.i(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        getActivity().setTitle(R.string.main_article_list_label);
-
-        ArrayList<Article> articleList = ArticleList.getInstance(getActivity()).getArticleList();
-        mAdapter = new ArticleAdapter(articleList);
-
-        setListAdapter(mAdapter);
+//        setHasOptionsMenu(true);
+//        getActivity().setTitle(R.string.main_article_list_label);
+//
+//        mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
+//        mAdapter = new ArticleAdapter(mArticleList);
+//
+//        setListAdapter(mAdapter);
     }
 
     @Override
@@ -57,9 +58,18 @@ public class ArticleListFragment extends ListFragment {
 
     @Override
     public void onResume() {
-        Log.i(TAG, "onResume");
+        Log.i(TAG, "onResume ArticleListFragment");
         super.onResume();
-        ((ArticleAdapter) getListAdapter()).notifyDataSetChanged();
+
+        setHasOptionsMenu(true);
+        getActivity().setTitle(R.string.main_article_list_label);
+
+        mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
+        mAdapter = new ArticleAdapter(mArticleList);
+
+        setListAdapter(mAdapter);
+
+        mAdapter.notifyDataSetChanged();
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -105,7 +115,6 @@ public class ArticleListFragment extends ListFragment {
     }
 
     private class ArticleAdapter extends ArrayAdapter<Article> {
-        ArrayList<Article> mArticleList;
 
         public ArticleAdapter(ArrayList<Article> articles) {
             super(getActivity(), 0, articles);
@@ -136,7 +145,7 @@ public class ArticleListFragment extends ListFragment {
             dateTextView.setText(article.getDateAsString());
 
             CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.article_list_item_readed);
-            checkBox.setChecked(false);
+            checkBox.setChecked(article.isReaded());
 
             return convertView;
         }
@@ -172,8 +181,6 @@ public class ArticleListFragment extends ListFragment {
             }
 
             ArrayList<Article> articles = ArticleList.getInstance(getActivity()).getArticleList();
-            Log.i("ArticleListFragment", "Articles size: " + articles.size());
-
             ArticleListFragment.this.mAdapter.changeData(articles);
         }
 
