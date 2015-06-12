@@ -1,6 +1,7 @@
 package deaguiar.daniel.ckl_challenge;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 public class ArticleFragment extends Fragment {
 
     public static final String EXTRA_ID = "_id";
+    public static final String DIALOG_IMAGE = "image";
 
     private Article mArticle;
     private ImageView mImageView;
@@ -63,9 +65,14 @@ public class ArticleFragment extends Fragment {
             Bitmap bitmap = mArticle.getImageAsBitmap();
 
             int dim = getImageDimension(getActivity());
-            Log.i("Article", "DIMENSION: " + dim);
-
             mImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, dim, dim, false));
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getFragmentManager();
+                    ImageFragment.newInstance(mArticle.getId()).show(fm, DIALOG_IMAGE);
+                }
+            });
         }
 
         mTitleTextView = (TextView) v.findViewById(R.id.fragment_article_title);
@@ -87,7 +94,6 @@ public class ArticleFragment extends Fragment {
         mReadedCheckBox.setChecked(mArticle.isReaded());
         mReadedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // set the crime's solved property
                 mArticle.setReaded(isChecked);
                 ArticleList.getInstance(getActivity()).update(mArticle);
             }
