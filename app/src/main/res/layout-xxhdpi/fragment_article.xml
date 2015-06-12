@@ -54,22 +54,22 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/fragment_article_website"
+                android:id="@+id/fragment_article_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
+                android:text="@string/fragment_author"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/fragment_article_date"
+            android:id="@+id/fragment_article_website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:text="@string/fragment_author"
+            android:padding="4dp"
             android:textStyle="bold"/>
 
         <TextView

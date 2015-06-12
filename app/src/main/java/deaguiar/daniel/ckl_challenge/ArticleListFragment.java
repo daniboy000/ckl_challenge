@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -128,7 +129,7 @@ public class ArticleListFragment extends ListFragment {
                         .inflate(R.layout.list_item_article, null);
             }
 
-            Article article = getItem(position);
+            final Article article = getItem(position);
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.thumbnail);
             imageView.setImageBitmap(article.getImageAsBitmap());
@@ -144,6 +145,13 @@ public class ArticleListFragment extends ListFragment {
 
             CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.article_list_item_readed);
             checkBox.setChecked(article.isReaded());
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // set the crime's solved property
+                    article.setReaded(isChecked);
+                    ArticleList.getInstance(getActivity()).update(article);
+                }
+            });
 
             return convertView;
         }
