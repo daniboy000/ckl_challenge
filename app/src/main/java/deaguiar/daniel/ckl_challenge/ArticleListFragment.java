@@ -1,14 +1,21 @@
 package deaguiar.daniel.ckl_challenge;
 
 import android.app.ListFragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.opengl.EGLExt;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,35 +24,45 @@ import java.util.Comparator;
 
 public class ArticleListFragment extends ListFragment {
 
-    private ArrayList<Article> mArticleList;
+    private ListView mListView;
+    private ArticleAdapter mAdapter;
+
+    public static final String TAG = "ArticleListActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        getActivity().setTitle(R.string.main_article_list_label);
 
-        getActivity().setTitle("TITLE");
+        ArrayList<Article> articleList = ArticleList.getInstance(getActivity()).getArticleList();
+        mAdapter = new ArticleAdapter(articleList);
 
-        mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
+        setListAdapter(mAdapter);
+    }
 
-        if (mArticleList.size() > 0) {
-            ArticleAdapter adapter = new ArticleAdapter(mArticleList);
-            adapter.sort(new CompareTitle());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
 
-            setListAdapter(adapter);
-        }
+        View v = inflater.inflate(R.layout.fragment_article_list, parent, false);
+
+        mListView = (ListView) v.findViewById(android.R.id.list);
+        mListView.setEmptyView(v.findViewById(android.R.id.empty));
+
+        return v;
     }
 
     @Override
     public void onResume() {
+        Log.i(TAG, "onResume");
         super.onResume();
-        if (mArticleList.size() > 0) {
-            ((ArticleAdapter) getListAdapter()).notifyDataSetChanged();
-        }
+        ((ArticleAdapter) getListAdapter()).notifyDataSetChanged();
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
-
         Article article = ((ArticleAdapter)getListAdapter()).getItem(position);
 
         // Start ArticleActivity
@@ -63,21 +80,24 @@ public class ArticleListFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.fetch_articles:
+                new FetchArticlesClass().execute();
+                return true;
             case R.id.sort_title:
-                ((ArrayAdapter<Article>)getListAdapter()).sort(new CompareTitle());
-                ((ArrayAdapter<Article>)getListAdapter()).notifyDataSetChanged();
+                mAdapter.sort(new CompareTitle());
+                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.sort_authors:
-                ((ArrayAdapter<Article>)getListAdapter()).sort(new CompareAuthors());
-                ((ArrayAdapter<Article>)getListAdapter()).notifyDataSetChanged();
+                mAdapter.sort(new CompareAuthors());
+                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.sort_websites:
-                ((ArrayAdapter<Article>)getListAdapter()).sort(new CompareWebsite());
-                ((ArrayAdapter<Article>)getListAdapter()).notifyDataSetChanged();
+                mAdapter.sort(new CompareWebsite());
+                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.sort_dates:
-                ((ArrayAdapter<Article>)getListAdapter()).sort(new CompareDates());
-                ((ArrayAdapter<Article>)getListAdapter()).notifyDataSetChanged();
+                mAdapter.sort(new CompareDates());
+                mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -85,9 +105,12 @@ public class ArticleListFragment extends ListFragment {
     }
 
     private class ArticleAdapter extends ArrayAdapter<Article> {
+        ArrayList<Article> mArticleList;
 
         public ArticleAdapter(ArrayList<Article> articles) {
             super(getActivity(), 0, articles);
+
+            sort(new CompareTitle());
         }
 
         @Override
@@ -100,14 +123,60 @@ public class ArticleListFragment extends ListFragment {
 
             Article article = getItem(position);
 
+            ImageView imageView = (ImageView)convertView.findViewById(R.id.thumbnail);
+            imageView.setImageBitmap(article.getImageAsBitmap());
+
             TextView titleTextView = (TextView)convertView.findViewById(R.id.article_list_item_title);
             titleTextView.setText(article.getTitle());
 
             TextView authorTextView = (TextView)convertView.findViewById(R.id.article_list_item_author);
             authorTextView.setText(article.getAuthors());
 
+            TextView dateTextView = (TextView)convertView.findViewById(R.id.article_list_item_date);
+            dateTextView.setText(article.getDateAsString());
+
+            CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.article_list_item_readed);
+            checkBox.setChecked(false);
+
             return convertView;
         }
+
+        public void changeData(ArrayList<Article> articles) {
+            for (Article article : articles) {
+                add(article);
+            }
+            sort(new CompareTitle());
+            notifyDataSetChanged();
+        }
+    }
+
+    private class FetchArticlesClass extends AsyncTask<Void, Void, Void> {
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Fetching Articles. Please Wait.");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new ArticleFetcher(getActivity()).fetchItems();
+            return null;
+        }
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+
+            ArrayList<Article> articles = ArticleList.getInstance(getActivity()).getArticleList();
+            Log.i("ArticleListFragment", "Articles size: " + articles.size());
+
+            ArticleListFragment.this.mAdapter.changeData(articles);
+        }
+
     }
 
     private class CompareTitle implements Comparator<Article> {

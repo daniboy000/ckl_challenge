@@ -19,6 +19,6 @@
         android:id="@+id/main_fetch_articles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/main_fetch_articles_label"/>
+        android:text="@string/fetch_articles_label"/>
 
 </LinearLayout>

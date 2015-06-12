@@ -2,8 +2,8 @@ package deaguiar.daniel.ckl_challenge;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +45,8 @@ public class Article {
     }
 
     public String getDateAsString() {
-        return mDate.toString();
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.format(mDate);
     }
 
     public void setDate(String date) {

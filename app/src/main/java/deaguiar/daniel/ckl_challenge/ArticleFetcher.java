@@ -73,7 +73,6 @@ public class ArticleFetcher {
     public void fetchItems() {
         try {
             ArticleList articleList = ArticleList.getInstance(mAppContext);
-            //articleList.open();
 
             String url = Uri.parse(ENDPOINT).buildUpon().build().toString();
             String jsonString = getUrl(url);
@@ -119,10 +118,7 @@ public class ArticleFetcher {
             Log.e(TAG, "Failed to fetch items", ioe);
         } catch (JSONException jse) {
             Log.e(TAG, "Failed to parse JSON", jse);
-        }/// catch (SQLException sqe) {
-          //  Log.e(TAG, "Failed to open DATABASE", sqe);
-        //}
-
+        }
     }
 
 }
