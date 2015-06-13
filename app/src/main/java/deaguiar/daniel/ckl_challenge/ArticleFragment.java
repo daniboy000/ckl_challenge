@@ -24,6 +24,7 @@ public class ArticleFragment extends Fragment {
     public static final String DIALOG_IMAGE = "image";
 
     private Article mArticle;
+    private Callbacks mCallbacks;
     private ImageView mImageView;
     private TextView mTitleTextView;
 
@@ -96,10 +97,27 @@ public class ArticleFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mArticle.setReaded(isChecked);
                 ArticleList.getInstance(getActivity()).update(mArticle);
+                mCallbacks.onArticleUpdated();
             }
         });
 
         return v;
+    }
+
+    public interface Callbacks {
+        void onArticleUpdated();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks)activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     private int getImageDimension(Activity activity) {

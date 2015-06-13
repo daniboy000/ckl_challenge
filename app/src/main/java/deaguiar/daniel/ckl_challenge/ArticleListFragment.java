@@ -1,5 +1,6 @@
 package deaguiar.daniel.ckl_challenge;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,11 +24,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import javax.security.auth.callback.Callback;
+
 public class ArticleListFragment extends ListFragment {
 
     private ListView mListView;
     ArrayList<Article> mArticleList;
     private ArticleAdapter mAdapter;
+    private Callbacks mCallbacks;
 
     public static final String TAG = "ArticleListActivity";
 
@@ -62,6 +66,21 @@ public class ArticleListFragment extends ListFragment {
         Log.i(TAG, "onResume ArticleListFragment");
         super.onResume();
 
+        updateUI();
+    }
+
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Article article = ((ArticleAdapter)getListAdapter()).getItem(position);
+
+        mCallbacks.onArticleSelected(article.getId());
+    }
+
+    public interface Callbacks {
+
+        void onArticleSelected(long id);
+    }
+
+    public void updateUI() {
         mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
 
         mAdapter.clear();
@@ -70,13 +89,16 @@ public class ArticleListFragment extends ListFragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Article article = ((ArticleAdapter)getListAdapter()).getItem(position);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks)activity;
+    }
 
-        // Start ArticleActivity
-        Intent i = new Intent(getActivity(), ArticleActivity.class);
-        i.putExtra(ArticleFragment.EXTRA_ID, article.getId());
-        startActivity(i);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     @Override
