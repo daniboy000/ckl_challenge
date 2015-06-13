@@ -10,45 +10,65 @@
         android:layout_height="96dp"
         android:padding="4dp" />
 
-    <CheckBox
-        android:id="@+id/article_list_item_readed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_alignParentRight="true"
-
-        android:focusable="false"
-        android:padding="4dp"
-        android:text="@string/fragment_readed"/>
-
     <TextView
         android:id="@+id/article_list_item_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/thumbnail"
-        android:layout_toLeftOf="@id/article_list_item_readed"
+
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="1dp" />
 
-    <TextView
-        android:id="@+id/article_list_item_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/thumbnail"
-        android:layout_toLeftOf="@id/article_list_item_readed"
-        android:layout_below="@id/article_list_item_title"
-        android:textSize="14sp"
-        android:padding="1dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/thumbnail" >
 
-    <TextView
-        android:id="@+id/article_list_item_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/thumbnail"
-        android:layout_toLeftOf="@id/article_list_item_readed"
-        android:layout_below="@id/article_list_item_author"
-        android:textSize="14sp"
-        android:padding="1dp" />
+        <LinearLayout
+            android:id="@+id/linear_layout_date_and_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true" >
+
+            <TextView
+                android:id="@+id/article_list_item_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="14sp"
+                android:padding="1dp" />
+
+            <TextView
+                android:id="@+id/article_list_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="14sp"
+                android:padding="1dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="right">
+
+            <CheckBox
+                android:id="@+id/article_list_item_readed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|right"
+                android:layout_alignParentRight="true"
+                android:focusable="false"
+                android:padding="4dp"
+                android:text="@string/fragment_readed"
+                android:singleLine="false" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
