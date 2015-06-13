@@ -3,8 +3,6 @@ package deaguiar.daniel.ckl_challenge;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.opengl.EGLExt;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +22,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import javax.security.auth.callback.Callback;
-
+/**
+ * ArticleListFragment
+ * Class that represents an instance of type ArticleListFragment
+ * Responsible for showing the list of articles
+ *
+ * @author Daniel Besen de Aguiar
+ */
 public class ArticleListFragment extends ListFragment {
 
     private ListView mListView;
@@ -80,6 +83,9 @@ public class ArticleListFragment extends ListFragment {
         void onArticleSelected(long id);
     }
 
+    /**
+     * Updates the list every time there is a modification in the Database
+     */
     public void updateUI() {
         mArticleList = ArticleList.getInstance(getActivity()).getArticleList();
 

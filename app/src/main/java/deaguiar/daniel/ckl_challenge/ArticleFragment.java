@@ -3,11 +3,8 @@ package deaguiar.daniel.ckl_challenge;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +15,13 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * ArticleFragment
+ * Class that represents an instance of type ArticleFragment
+ * Responsible to show an Article's data
+ *
+ * @author Daniel Besen de Aguiar
+ */
 public class ArticleFragment extends Fragment {
 
     public static final String EXTRA_ID = "_id";
@@ -47,6 +51,12 @@ public class ArticleFragment extends Fragment {
         mArticle = ArticleList.getInstance(getActivity()).getArticle(id);
     }
 
+    /**
+     * Creates an instance of Article fragment and add an Article id
+     * as an extra.
+     * @param id Article id
+     * @return Fragment instance of ArticleFragment
+     */
     public static ArticleFragment newInstance(long id) {
         Bundle args = new Bundle();
         args.putLong(EXTRA_ID, id);
@@ -61,6 +71,7 @@ public class ArticleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_article, parent, false);
 
+        // If there is an image, inflate the view and connect the listener
         if (mArticle.getImageAsBitmap() != null) {
             mImageView = (ImageView) v.findViewById(R.id.fragment_article_image);
             Bitmap bitmap = mArticle.getImageAsBitmap();
@@ -96,6 +107,8 @@ public class ArticleFragment extends Fragment {
         mReadedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mArticle.setReaded(isChecked);
+
+                // Update the readed value in the Database and update the article list as well
                 ArticleList.getInstance(getActivity()).update(mArticle);
                 mCallbacks.onArticleUpdated();
             }
@@ -120,6 +133,11 @@ public class ArticleFragment extends Fragment {
         mCallbacks = null;
     }
 
+    /**
+     * Calculates the image dimension using display size information
+     * @param activity the activity that hosts ArticleFragment
+     * @return int image dimension
+     */
     private int getImageDimension(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         int destWidth = display.getWidth();

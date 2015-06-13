@@ -2,7 +2,6 @@ package deaguiar.daniel.ckl_challenge;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,7 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by daniel on 09/06/15.
+ * Article
+ * Class that represents an instance of type Article
+ *
+ * @author Daniel Besen de Aguiar
  */
 public class Article {
 
@@ -52,6 +54,10 @@ public class Article {
         return mDate;
     }
 
+    /**
+     * Gets the attribute date of type Date and convert it to String
+     * @return String This return date in format "MM/dd/yyyy"
+     */
     public String getDateAsString() {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return dateFormat.format(mDate);
@@ -106,6 +112,10 @@ public class Article {
         mImageData = imageData;
     }
 
+    /**
+     * Converts the image data in byte to a Bitmap and return it if exists
+     * @return Bitmap article image
+     */
     public Bitmap getImageAsBitmap() {
         if (mImageData != null) {
             final Bitmap bitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.length);

@@ -2,7 +2,6 @@ package deaguiar.daniel.ckl_challenge;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,17 +11,15 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
- * Created by daniel on 09/06/15.
+ * ArticleFetcher
+ * Class that represents an instance of type ArticleFetcher
+ * This class is responsible to connect with the server and fetch the articles.
+ *
+ * @author Daniel Besen de Aguiar
  */
 public class ArticleFetcher {
 
@@ -30,11 +27,11 @@ public class ArticleFetcher {
 
     public static final String TAG = "ArticleFetcher";
 
-    private static final String ENDPOINT = "http://www.ckl.io/challenge/";
-    private static final String JSON_TITLE = "title";
-    private static final String JSON_DATE = "date";
+    private static final String ENDPOINT     = "http://www.ckl.io/challenge/";
+    private static final String JSON_TITLE   = "title";
+    private static final String JSON_DATE    = "date";
     private static final String JSON_WEBSITE = "website";
-    private static final String JSON_IMAGE = "image";
+    private static final String JSON_IMAGE   = "image";
     private static final String JSON_CONTENT = "content";
     private static final String JSON_AUTHORS = "authors";
 
@@ -42,6 +39,12 @@ public class ArticleFetcher {
         mAppContext = context;
     }
 
+    /**
+     * This method tries to connect with the urlSpec and download the data.
+     * @param urlSpec an absolute URL
+     * @return byte[] the data at urlSpec
+     * @throws IOException
+     */
     byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -66,10 +69,20 @@ public class ArticleFetcher {
         }
     }
 
+    /**
+     * Converts the response of getUrlBytes(String urlSpec) into String
+     * @param urlSpec an absolute URL
+     * @return String the data at urlSpec
+     * @throws IOException
+     */
     public String getUrl(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
+    /**
+     * This method parse all the content in ENDPOINT, create an instance of Article for
+     * for each JSON object founded and save it on the Database
+     */
     public void fetchItems() {
         try {
             ArticleList articleList = ArticleList.getInstance(mAppContext);

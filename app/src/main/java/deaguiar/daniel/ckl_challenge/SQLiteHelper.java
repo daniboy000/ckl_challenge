@@ -6,7 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by daniel on 11/06/15.
+ * SQLiteHelper
+ * Class that represents an instance of type SQLiteHelper
+ * Responsible to create the Database
+ *
+ * @author Daniel Besen de Aguiar
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
 

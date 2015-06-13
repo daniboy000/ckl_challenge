@@ -1,15 +1,18 @@
 package deaguiar.daniel.ckl_challenge;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+/**
+ * ImageFragment
+ * Class that represents an instance of type ImageFragment
+ *
+ * @author Daniel Besen de Aguiar
+ */
 public class ImageFragment extends DialogFragment {
 
     private ImageView mImageView;
@@ -26,17 +29,9 @@ public class ImageFragment extends DialogFragment {
         return fragment;
     }
 
-    public ImageFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override

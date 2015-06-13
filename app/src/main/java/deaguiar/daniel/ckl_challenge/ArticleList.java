@@ -4,13 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by daniel on 10/06/15.
+ * ArticleList
+ * Class that represents an instance of type ArticleList
+ * Responsible to communicate with the Database
+ *
+ * @author Daniel Besen de Aguiar
  */
 public class ArticleList {
 
@@ -51,6 +54,11 @@ public class ArticleList {
         mDBHelper.close();
     }
 
+    /**
+     * For each article int the Database, creates an Article object and
+     * insert it into an ArrayList of Article
+     * @return ArrayList<Article> list of Article
+     */
     public ArrayList<Article> getArticleList() {
         ArrayList<Article> articleList = new ArrayList<Article>();
 
@@ -96,6 +104,10 @@ public class ArticleList {
         }
     }
 
+    /**
+     * Tries to update an Article. If wasn't possible, insert it into the database
+     * @param article
+     */
     public void update(Article article) {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelper.COLUMN_READED, article.isReaded() ? 1 : 0);
@@ -115,6 +127,11 @@ public class ArticleList {
         return null;
     }
 
+    /**
+     * Convert a Cursor into an Article
+     * @param cursor Cursor with the Article data from Database
+     * @return Article
+     */
     private Article cursorToArticle(Cursor cursor) {
         Article article = new Article();
         article.setId(cursor.getLong(0));
