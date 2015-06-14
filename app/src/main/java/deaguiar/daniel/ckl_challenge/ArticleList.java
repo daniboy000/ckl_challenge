@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -90,7 +91,6 @@ public class ArticleList {
         values.put(SQLiteHelper.COLUMN_CONTENT, content);
         values.put(SQLiteHelper.COLUMN_AUTHORS, authors);
         values.put(SQLiteHelper.COLUMN_IMAGE_DATA, imageData);
-        values.put(SQLiteHelper.COLUMN_READED, readed ? 1 : 0);
 
         String whereClause = SQLiteHelper.COLUMN_TITLE + " = ? AND " +
                 SQLiteHelper.COLUMN_DATE + " = ? AND " + SQLiteHelper.COLUMN_WEBSITE + " = ? AND " +
@@ -100,6 +100,7 @@ public class ArticleList {
         String[] args = { title, date, website, image, content, authors };
 
         if (mDataBase.update(SQLiteHelper.TABLE_ARTICLE, values, whereClause, args) == 0) {
+            values.put(SQLiteHelper.COLUMN_READED, readed ? 1 : 0);
             long id = mDataBase.insert(SQLiteHelper.TABLE_ARTICLE, null, values);
         }
     }
